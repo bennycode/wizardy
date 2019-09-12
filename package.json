@@ -43,7 +43,6 @@
   "license": "MIT",
   "main": "dist/index.js",
   "name": "wizardy",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bennyn/wizardy.git"
