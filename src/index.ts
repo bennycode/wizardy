@@ -1,1 +1,2 @@
-export * from "./MyClass";
+export * from './Wizardy';
+export * from './Prompt';
