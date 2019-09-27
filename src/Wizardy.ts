@@ -1,13 +1,13 @@
 import {EventEmitter} from 'events';
 import {Prompt} from './Prompt';
 
-export class Wizardy<T> extends EventEmitter {
+export class Wizardy<T = any> extends EventEmitter {
   private static readonly STARTING_INDEX = -1;
   public static TOPIC = {
     END: 'Wizardy.TOPIC.END',
     START: 'Wizardy.TOPIC.START',
   };
-  private answers: Record<string, T> = {};
+  public answers: Record<string, T> = {};
   private index: number = Wizardy.STARTING_INDEX;
   private questions: Prompt<T>[] = [];
 
