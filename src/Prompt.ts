@@ -12,9 +12,9 @@ export interface Prompt<T> {
   /**
    * A question, which is asked to the user.
    */
-  question: string;
+  question: (() => string) | string;
   /**
    * A reply which will be sent to the user when the question is answered with valid input.
    */
-  response: string;
+  response: (() => string) | string;
 }

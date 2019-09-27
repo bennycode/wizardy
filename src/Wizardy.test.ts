@@ -62,4 +62,42 @@ describe('Wizardy', () => {
       expect(wizard.answer('I would like to have 7.')).toBe('Thanks. We will prepare your order.');
     });
   });
+
+  describe('step', () => {
+    it('returns the progress of the questionnaire', () => {
+      const wizard = new Wizardy();
+      const questionnaire: Prompt<string | number>[] = [
+        {
+          answerKey: 'item',
+          answerValue: input => input.trim(),
+          question: `What would you like to order?`,
+          response: () => `Lucky you! We have '${wizard.answers.item}' in stock.`,
+        },
+        {
+          answerKey: 'quantity',
+          answerValue: input => parseInt(input, 10),
+          question: () => `How many '${wizard.answers.item}' do you want to buy?`,
+          response: () =>
+            `Great, we will prepare your order and deliver ${wizard.answers.quantity} ${wizard.answers.item} as soon as possible.`,
+        },
+      ];
+      wizard.addQuestions(questionnaire);
+      expect(wizard.step).toBe(0);
+
+      wizard.ask();
+      wizard.answer('iPhones');
+      expect(wizard.step).toBe(1);
+
+      wizard.ask();
+      wizard.answer('13');
+      expect(wizard.step).toBe(2);
+
+      expect(() => {
+        wizard.ask();
+      }).toThrow();
+
+      wizard.reset();
+      expect(wizard.step).toBe(0);
+    });
+  });
 });
