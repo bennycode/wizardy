@@ -1,3 +1,9 @@
+#### 0.2.3 (2019-09-27)
+
+##### New Features
+
+- Expose if the wizard has been started ([25715aac](https://github.com/bennyn/wizardy/commit/25715aacdb7422421f1912bc223ec9a893fbfe94))
+
 #### 0.2.2 (2019-09-27)
 
 ##### New Features
