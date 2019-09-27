@@ -101,12 +101,12 @@ describe('Wizardy', () => {
     });
   });
 
-  describe('isInConversation', () => {
+  describe('inConversation', () => {
     it('shows if the wizard has a running conversation with a user', done => {
       const wizard = new Wizardy();
 
       wizard.on(Wizardy.TOPIC.END, () => {
-        expect(wizard.isInConversation).toBe(false);
+        expect(wizard.inConversation).toBe(false);
         done();
       });
 
@@ -127,16 +127,16 @@ describe('Wizardy', () => {
       ];
 
       wizard.addQuestions(questionnaire);
-      expect(wizard.isInConversation).toBe(false);
+      expect(wizard.inConversation).toBe(false);
 
       wizard.ask();
-      expect(wizard.isInConversation).toBe(true);
+      expect(wizard.inConversation).toBe(true);
 
       wizard.answer('iPhones');
-      expect(wizard.isInConversation).toBe(true);
+      expect(wizard.inConversation).toBe(true);
 
       wizard.ask();
-      expect(wizard.isInConversation).toBe(true);
+      expect(wizard.inConversation).toBe(true);
 
       wizard.answer('13');
     });
