@@ -3,11 +3,11 @@ import {Prompt} from './Prompt';
 
 export class Wizardy<T = any> extends EventEmitter {
   private static readonly STARTING_INDEX = -1;
-  public static TOPIC = {
+  static TOPIC = {
     END: 'Wizardy.TOPIC.END',
     START: 'Wizardy.TOPIC.START',
   };
-  public answers: Record<string, T> = {};
+  answers: Record<string, T> = {};
   private index: number = Wizardy.STARTING_INDEX;
   private questions: Prompt<T>[] = [];
 
@@ -31,7 +31,7 @@ export class Wizardy<T = any> extends EventEmitter {
       this.answers[answerKey] = value;
       this.questions.shift();
       if (this.questions.length === 0) {
-        this.reset();
+        this.emit(Wizardy.TOPIC.END, this.answers);
       }
       return response;
     } catch (error) {
@@ -40,11 +40,17 @@ export class Wizardy<T = any> extends EventEmitter {
   }
 
   ask(): string {
+    if (this.questions.length === 0) {
+      throw Error('Please add some questions.');
+    }
     return this.questions[this.index].question;
   }
 
-  private reset(): void {
-    this.emit(Wizardy.TOPIC.END, this.answers);
+  get step(): number {
+    return Object.keys(this.answers).length;
+  }
+
+  reset(): void {
     this.index = Wizardy.STARTING_INDEX;
     this.questions = [];
     this.answers = {};

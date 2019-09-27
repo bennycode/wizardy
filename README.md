@@ -23,6 +23,8 @@ yarn add wizardy
 
 ## ❯ Usage
 
+**Node.js**
+
 ```js
 const {Prompt, Wizardy} = require('wizardy');
 
@@ -79,4 +81,10 @@ console.log(wizard.answer('Seven')); // Please write down the amount as number.
 
 console.log(wizard.ask()); // How much do you want?
 console.log(wizard.answer('I would like to have 7.')); // Thanks. We will prepare your order.
+```
+
+**TypeScript**
+
+```ts
+import {Prompt, Wizardy} from 'wizardy';
 ```
