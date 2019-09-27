@@ -71,13 +71,14 @@ describe('Wizardy', () => {
           answerKey: 'item',
           answerValue: input => input.trim(),
           question: `What would you like to order?`,
-          response: `Lucky you! We have '${wizard.answers.item}' in stock.`,
+          response: () => `Lucky you! We have '${wizard.answers.item}' in stock.`,
         },
         {
           answerKey: 'quantity',
           answerValue: input => parseInt(input, 10),
-          question: `How many '${wizard.answers.item}' do you want to buy?`,
-          response: `Great, we will prepare your order and deliver ${wizard.answers.quantity}x ${wizard.answers.item} as soon as possible.`,
+          question: () => `How many '${wizard.answers.item}' do you want to buy?`,
+          response: () =>
+            `Great, we will prepare your order and deliver ${wizard.answers.quantity} ${wizard.answers.item} as soon as possible.`,
         },
       ];
       wizard.addQuestions(questionnaire);
@@ -88,7 +89,7 @@ describe('Wizardy', () => {
       expect(wizard.step).toBe(1);
 
       wizard.ask();
-      wizard.answer('2');
+      wizard.answer('13');
       expect(wizard.step).toBe(2);
 
       expect(() => {

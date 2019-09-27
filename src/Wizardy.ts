@@ -33,7 +33,7 @@ export class Wizardy<T = any> extends EventEmitter {
       if (this.questions.length === 0) {
         this.emit(Wizardy.TOPIC.END, this.answers);
       }
-      return response;
+      return typeof response === 'string' ? response : response();
     } catch (error) {
       return error.message;
     }
@@ -43,7 +43,8 @@ export class Wizardy<T = any> extends EventEmitter {
     if (this.questions.length === 0) {
       throw Error('Please add some questions.');
     }
-    return this.questions[this.index].question;
+    const question = this.questions[this.index].question;
+    return typeof question === 'string' ? question : question();
   }
 
   get step(): number {

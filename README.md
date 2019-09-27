@@ -23,6 +23,41 @@ yarn add wizardy
 
 ## ❯ Usage
 
+**TypeScript**
+
+```ts
+import {Prompt, Wizardy} from 'wizardy';
+
+const wizard = new Wizardy();
+
+const questionnaire: Prompt<string | number>[] = [
+  {
+    answerKey: 'item',
+    answerValue: input => input.trim(),
+    question: `What would you like to order?`,
+    response: () => `Lucky you! We have '${wizard.answers.item}' in stock.`,
+  },
+  {
+    answerKey: 'quantity',
+    answerValue: input => parseInt(input, 10),
+    question: () => `How many '${wizard.answers.item}' do you want to buy?`,
+    response: () =>
+      `Great, we will prepare your order and deliver ${wizard.answers.quantity}x ${wizard.answers.item} as soon as possible.`,
+  },
+];
+
+wizard.addQuestions(questionnaire);
+console.log(wizard.step); // 0
+
+console.log(wizard.ask()); // "What would you like to order?"
+console.log(wizard.answer('iPhones')); // "Lucky you! We have 'iPhones' in stock."
+console.log(wizard.step); // 1
+
+console.log(wizard.ask()); // "How many 'iPhones' do you want to buy?"
+console.log(wizard.answer('13')); // "Great, we will prepare your order and deliver 13 iPhones as soon as possible."
+console.log(wizard.step); // 2
+```
+
 **Node.js**
 
 ```js
@@ -81,10 +116,4 @@ console.log(wizard.answer('Seven')); // Please write down the amount as number.
 
 console.log(wizard.ask()); // How much do you want?
 console.log(wizard.answer('I would like to have 7.')); // Thanks. We will prepare your order.
-```
-
-**TypeScript**
-
-```ts
-import {Prompt, Wizardy} from 'wizardy';
 ```
