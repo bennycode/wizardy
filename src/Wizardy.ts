@@ -8,6 +8,7 @@ export class Wizardy<T = any> extends EventEmitter {
     START: 'Wizardy.TOPIC.START',
   };
   answers: Record<string, T> = {};
+  isInConversation: boolean = false;
   private index: number = Wizardy.STARTING_INDEX;
   private questions: Prompt<T>[] = [];
 
@@ -31,6 +32,7 @@ export class Wizardy<T = any> extends EventEmitter {
       this.answers[answerKey] = value;
       this.questions.shift();
       if (this.questions.length === 0) {
+        this.isInConversation = false;
         this.emit(Wizardy.TOPIC.END, this.answers);
       }
       return typeof response === 'string' ? response : response();
@@ -43,6 +45,7 @@ export class Wizardy<T = any> extends EventEmitter {
     if (this.questions.length === 0) {
       throw Error('Please add some questions.');
     }
+    this.isInConversation = true;
     const question = this.questions[this.index].question;
     return typeof question === 'string' ? question : question();
   }
@@ -52,8 +55,9 @@ export class Wizardy<T = any> extends EventEmitter {
   }
 
   reset(): void {
-    this.index = Wizardy.STARTING_INDEX;
-    this.questions = [];
     this.answers = {};
+    this.index = Wizardy.STARTING_INDEX;
+    this.isInConversation = false;
+    this.questions = [];
   }
 }

@@ -100,4 +100,45 @@ describe('Wizardy', () => {
       expect(wizard.step).toBe(0);
     });
   });
+
+  describe('isInConversation', () => {
+    it('shows if the wizard has a running conversation with a user', done => {
+      const wizard = new Wizardy();
+
+      wizard.on(Wizardy.TOPIC.END, () => {
+        expect(wizard.isInConversation).toBe(false);
+        done();
+      });
+
+      const questionnaire: Prompt<string | number>[] = [
+        {
+          answerKey: 'item',
+          answerValue: input => input.trim(),
+          question: `What would you like to order?`,
+          response: () => `Lucky you! We have '${wizard.answers.item}' in stock.`,
+        },
+        {
+          answerKey: 'quantity',
+          answerValue: input => parseInt(input, 10),
+          question: () => `How many '${wizard.answers.item}' do you want to buy?`,
+          response: () =>
+            `Great, we will prepare your order and deliver ${wizard.answers.quantity} ${wizard.answers.item} as soon as possible.`,
+        },
+      ];
+
+      wizard.addQuestions(questionnaire);
+      expect(wizard.isInConversation).toBe(false);
+
+      wizard.ask();
+      expect(wizard.isInConversation).toBe(true);
+
+      wizard.answer('iPhones');
+      expect(wizard.isInConversation).toBe(true);
+
+      wizard.ask();
+      expect(wizard.isInConversation).toBe(true);
+
+      wizard.answer('13');
+    });
+  });
 });
