@@ -28,8 +28,6 @@ yarn add wizardy
 ```ts
 import {Prompt, Wizardy} from 'wizardy';
 
-const wizard = new Wizardy();
-
 const questionnaire: Prompt<string | number>[] = [
   {
     answerKey: 'item',
@@ -46,6 +44,7 @@ const questionnaire: Prompt<string | number>[] = [
   },
 ];
 
+const wizard = new Wizardy<typeof questionnaire>();
 wizard.addQuestions(questionnaire);
 console.log(wizard.step); // 0
 
