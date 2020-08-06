@@ -44,7 +44,7 @@ const questionnaire: Prompt<string | number>[] = [
   },
 ];
 
-const wizard = new Wizardy<typeof questionnaire>();
+const wizard = new Wizardy();
 wizard.addQuestions(questionnaire);
 console.log(wizard.step); // 0
 
