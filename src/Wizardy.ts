@@ -1,12 +1,19 @@
 import {EventEmitter} from 'events';
 import {Prompt} from './Prompt';
 
+export enum TOPIC {
+  'END' = 'Wizardy.TOPIC.END',
+  'START' = 'Wizardy.TOPIC.START',
+}
+
+export interface Wizardy<T = any> {
+  on(event: TOPIC.START, listener: () => void): this;
+  on(event: TOPIC.END, listener: (answers: Record<string, T>) => void): this;
+}
+
 export class Wizardy<T = any> extends EventEmitter {
   private static readonly STARTING_INDEX = -1;
-  static TOPIC = {
-    END: 'Wizardy.TOPIC.END',
-    START: 'Wizardy.TOPIC.START',
-  };
+  static TOPIC = TOPIC;
   answers: Record<string, T> = {};
   inConversation: boolean = false;
   private index: number = Wizardy.STARTING_INDEX;
@@ -28,7 +35,7 @@ export class Wizardy<T = any> extends EventEmitter {
     const question: Prompt<T> = Object.assign({}, this.questions[this.index]);
     try {
       const {answerKey, response} = question;
-      const value = question.answerValue(answer);
+      const value = question.answerValue(answer, this.answers);
       this.answers[answerKey] = value;
       this.questions.shift();
       if (this.questions.length === 0) {
