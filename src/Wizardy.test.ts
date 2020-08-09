@@ -63,9 +63,41 @@ describe('Wizardy', () => {
     });
   });
 
+  describe('answer', () => {
+    it('triggers the answer value validation', done => {
+      const questionnaire: Prompt<string>[] = [
+        {
+          answerKey: 'firstName',
+          answerValue: (firstName: string): string => firstName,
+          question: `What's your first name?`,
+          response: 'Ok.',
+        },
+        {
+          answerKey: 'lastName',
+          answerValue: (lastName: string, answers: Record<string, string>): string => {
+            expect(lastName).withContext('Check current answer value').toBe('Neugebauer');
+            expect(answers['firstName']).withContext('Receive all previous answers').toBe('Benny');
+            done();
+            return lastName;
+          },
+          question: `What's your last name?`,
+          response: 'Nice to meet you.',
+        },
+      ];
+
+      const wizard = new Wizardy();
+      wizard.addQuestions(questionnaire);
+
+      wizard.ask();
+      wizard.answer('Benny');
+
+      wizard.ask();
+      wizard.answer('Neugebauer');
+    });
+  });
+
   describe('step', () => {
     it('returns the progress of the questionnaire', () => {
-      const wizard = new Wizardy();
       const questionnaire: Prompt<string | number>[] = [
         {
           answerKey: 'item',
@@ -81,6 +113,8 @@ describe('Wizardy', () => {
             `Great, we will prepare your order and deliver ${wizard.answers.quantity} ${wizard.answers.item} as soon as possible.`,
         },
       ];
+
+      const wizard = new Wizardy();
       wizard.addQuestions(questionnaire);
       expect(wizard.step).toBe(0);
 
@@ -103,13 +137,6 @@ describe('Wizardy', () => {
 
   describe('inConversation', () => {
     it('shows if the wizard has a running conversation with a user', done => {
-      const wizard = new Wizardy();
-
-      wizard.on(Wizardy.TOPIC.END, () => {
-        expect(wizard.inConversation).toBe(false);
-        done();
-      });
-
       const questionnaire: Prompt<string | number>[] = [
         {
           answerKey: 'item',
@@ -125,6 +152,13 @@ describe('Wizardy', () => {
             `Great, we will prepare your order and deliver ${wizard.answers.quantity} ${wizard.answers.item} as soon as possible.`,
         },
       ];
+
+      const wizard = new Wizardy();
+
+      wizard.on(Wizardy.TOPIC.END, () => {
+        expect(wizard.inConversation).toBe(false);
+        done();
+      });
 
       wizard.addQuestions(questionnaire);
       expect(wizard.inConversation).toBe(false);
