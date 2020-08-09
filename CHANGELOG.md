@@ -1,3 +1,9 @@
+### 0.3.0 (2020-08-09)
+
+##### New Features
+
+- Provide validation callback with previous answers ([#2](https://github.com/bennyn/wizardy/pull/2)) ([1f37ea3d](https://github.com/bennyn/wizardy/commit/1f37ea3d789eb578bf581ea52ae93b3563825ada))
+
 #### 0.2.6 (2020-08-06)
 
 #### 0.2.5 (2020-06-04)
