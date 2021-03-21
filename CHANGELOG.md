@@ -1,3 +1,9 @@
+### 0.4.0 (2021-03-21)
+
+##### New Features
+
+- Support IDs for later identification ([f7e661ea](https://github.com/bennyn/wizardy/commit/f7e661eaf0e6539a4649965768cc4857d81397c6))
+
 ### 0.3.0 (2020-08-09)
 
 ##### New Features
