@@ -19,6 +19,10 @@ export class Wizardy<T = any> extends EventEmitter {
   private index: number = Wizardy.STARTING_INDEX;
   private questions: Prompt<T>[] = [];
 
+  constructor(public id?: string) {
+    super();
+  }
+
   addQuestion(question: Prompt<T>): void {
     this.questions.push(question);
     if (this.index === -1) {

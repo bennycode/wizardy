@@ -2,6 +2,14 @@ import {Prompt} from './Prompt';
 import {Wizardy} from './Wizardy';
 
 describe('Wizardy', () => {
+  describe('constructor', () => {
+    it('supports IDs for later identification', () => {
+      const firstWizard = new Wizardy('Account Creation');
+      const secondWizard = new Wizardy('Hardware Setup');
+      expect(firstWizard.id).not.toBe(secondWizard.id);
+    });
+  });
+
   describe('TOPIC', () => {
     it('publishes all answers when a questionnaire has been completed', done => {
       const questionnaire: Prompt<string | number>[] = [
