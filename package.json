@@ -1,6 +1,7 @@
 {
   "description": "Conversational wizard and prompts generator with zero dependencies.",
   "devDependencies": {
+    "@tstv/tsconfig-common": "^2.0.0",
     "@types/jasmine": "^4.3.5",
     "@types/node": "^18",
     "eslint": "^7.22.0",
@@ -66,7 +67,7 @@
     "release:major": "generate-changelog -M -x \"chore,docs,refactor,style,test\" && yarn changelog:commit && npm version major",
     "release:minor": "generate-changelog -m -x \"chore,docs,refactor,style,test\" && yarn changelog:commit && npm version minor",
     "release:patch": "generate-changelog -p -x \"chore,docs,refactor,style,test\" && yarn changelog:commit && npm version patch",
-    "test": "nyc --nycrc-path=nyc.config.coverage.js jasmine --config=jasmine.json",
+    "test": "tsc --noEmit && nyc --nycrc-path=nyc.config.coverage.js jasmine --config=jasmine.json",
     "test:dev": "nyc jasmine --config=jasmine.json"
   },
   "version": "0.4.0"
