@@ -102,6 +102,21 @@ describe('Wizardy', () => {
       wizard.ask();
       wizard.answer('Neugebauer');
     });
+
+    it('catches unknown errors', () => {
+      const question = {
+        answerKey: 'firstName',
+        answerValue: (): string => {
+          throw 'not an error instance';
+        },
+        question: `What's your first name?`,
+        response: 'Ok.',
+      };
+      const wizard = new Wizardy();
+      wizard.addQuestions([question]);
+      const errorMessage = wizard.answer('Benny');
+      expect(errorMessage).toBe('Unknown error without an error message.');
+    });
   });
 
   describe('step', () => {

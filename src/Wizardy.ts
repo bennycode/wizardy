@@ -36,7 +36,7 @@ export class Wizardy<T = any> extends EventEmitter {
   }
 
   answer(answer: string): string {
-    const question: Prompt<T> = Object.assign({}, this.questions[this.index]);
+    const question = Object.assign({}, this.questions[this.index]);
     try {
       const {answerKey, response} = question;
       const value = question.answerValue(answer, this.answers);
@@ -48,7 +48,7 @@ export class Wizardy<T = any> extends EventEmitter {
       }
       return typeof response === 'string' ? response : response();
     } catch (error) {
-      return error.message;
+      return error instanceof Error ? error.message : 'Unknown error without an error message.';
     }
   }
 
