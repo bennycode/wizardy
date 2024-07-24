@@ -57,7 +57,7 @@ export class Wizardy<T = any> extends EventEmitter {
       throw Error('Please add some questions.');
     }
     this.inConversation = true;
-    const question = this.questions[this.index].question;
+    const question = this.questions[this.index]!.question;
     return typeof question === 'string' ? question : question();
   }
 
